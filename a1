@@ -40,8 +40,7 @@ void menuArray() {
                 }
                 break;
         }
-    } while(choice != 6);
-}
+    } 
 
 // ---------------- Question 2: Remove Duplicates ----------------
 void removeDuplicates() {
@@ -133,3 +132,4 @@ int main() {
     sumRowsCols();
     return 0;
 }
+
