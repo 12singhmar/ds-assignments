@@ -1,0 +1,100 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+// 1. Simple Queue
+void simpleQueue() {
+    int queue[MAX], front = 0, rear = 0, n, x;
+    cin >> n;
+    for(int i=0;i<n;i++){
+        cin >> x;
+        queue[rear++] = x;
+    }
+
+    for(int i=front;i<rear;i++) cout << queue[i] << " ";
+    cout << endl;
+
+    if(front<rear) cout << "Peek: " << queue[front] << endl;
+    if(front<rear) cout << "Dequeued: " << queue[front++] << endl;
+}
+
+// 2. Circular Queue
+void circularQueue() {
+    int q[MAX], front=0, rear=0, n, x;
+    cin >> n;
+    for(int i=0;i<n;i++){
+        cin >> x;
+        if((rear+1) % MAX != front){
+            q[rear] = x;
+            rear = (rear+1) % MAX;
+        }
+    }
+
+    int i=front;
+    while(i != rear){
+        cout << q[i] << " ";
+        i = (i+1) % MAX;
+    }
+    cout << endl;
+
+    if(front!=rear) cout << "Peek: " << q[front] << endl;
+    if(front!=rear) cout << "Dequeued: " << q[front++] << endl;
+}
+
+// 3. Interleave Queue
+void interleaveQueue() {
+    int arr[MAX], n;
+    cin >> n;
+    for(int i=0;i<n;i++) cin >> arr[i];
+
+    for(int i=0;i<n/2;i++) cout << arr[i] << " " << arr[i+n/2] << " ";
+    cout << endl;
+}
+
+// 4. First Non-Repeating Character
+void firstNonRepeating() {
+    string s;
+    cin >> s;
+    int freq[256]={0};
+    for(int i=0;i<s.size();i++) freq[s[i]]++;
+    for(int i=0;i<s.size();i++){
+        if(freq[s[i]]==1) cout << s[i] << " ";
+        else cout << "-1 ";
+    }
+    cout << endl;
+}
+
+// 5. Stack using queues
+void stackUsingQueues() {
+    // a) Two Queues
+    int qA[MAX], qB[MAX], sizeA=0;
+    qA[sizeA++] = 10; qA[sizeA++] = 20; qA[sizeA++] = 30;
+    for(int i=0;i<sizeA-1;i++) qB[i]=qA[i];
+    int val = qA[sizeA-1]; sizeA--;
+    for(int i=0;i<sizeA;i++) qA[i]=qB[i];
+    cout << val << endl;
+
+    // b) One Queue
+    int qS[MAX], sizeS=0;
+    qS[sizeS++] = 10; qS[sizeS++] = 20; qS[sizeS++] = 30;
+    int n=sizeS;
+    for(int i=0;i<n-1;i++){
+        int temp=qS[0];
+        for(int j=0;j<sizeS-1;j++) qS[j]=qS[j+1];
+        qS[sizeS-1]=temp;
+    }
+    val=qS[0];
+    for(int i=0;i<sizeS-1;i++) qS[i]=qS[i+1];
+    sizeS--;
+    cout << val << endl;
+}
+
+int main() {
+    simpleQueue();
+    circularQueue();
+    interleaveQueue();
+    firstNonRepeating();
+    stackUsingQueues();
+    return 0;
+}
