@@ -1,0 +1,125 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+
+    // ---------------- Q1: Menu Driven Stack (simple, parts) ----------------
+    int stack[100], top=-1;
+    int n=100, val, choice;
+
+    // Part a: push
+    cin >> val;
+    if(top<n-1) stack[++top]=val;
+
+    // Part b: pop
+    if(top!=-1){
+        cout << "Popped: " << stack[top--] << endl;
+    } else cout << "Stack Empty\n";
+
+    // Part c: isEmpty
+    if(top==-1) cout << "Empty\n";
+    else cout << "Not Empty\n";
+
+    // Part d: isFull
+    if(top==n-1) cout << "Full\n";
+    else cout << "Not Full\n";
+
+    // Part e: display
+    for(int i=top;i>=0;i--) cout << stack[i] << " ";
+    cout << endl;
+
+    // Part f: peek
+    if(top!=-1) cout << "Top: " << stack[top] << endl;
+    else cout << "Stack Empty\n";
+
+
+
+
+
+
+    // ---------------- Q2: Reverse a String using Stack ----------------
+    string s;
+    cin >> s;
+    char st[100];
+    int t=-1;
+    for(int i=0;i<s.size();i++) st[++t]=s[i];
+    while(t>=0) cout << st[t--];
+    cout << endl;
+
+
+
+
+    // ---------------- Q3: Balanced Parentheses ----------------
+    string expr;
+    cin >> expr;
+    t=-1;
+    bool balanced=true;
+    for(int i=0;i<expr.size();i++){
+        if(expr[i]=='(' || expr[i]=='{' || expr[i]=='[') st[++t]=expr[i];
+        else if(expr[i]==')'){
+            if(t<0 || st[t]!='('){ balanced=false; break;} else t--;
+        }
+        else if(expr[i]=='}'){
+            if(t<0 || st[t]!='{'){ balanced=false; break;} else t--;
+        }
+        else if(expr[i]==']'){
+            if(t<0 || st[t]!='['){ balanced=false; break;} else t--;
+        }
+    }
+    if(t!=-1) balanced=false;
+    cout << (balanced ? "Balanced\n" : "Not Balanced\n");
+
+
+
+
+
+
+    // ---------------- Q4: Infix to Postfix ----------------
+    string infix, postfix="";
+    cin >> infix;
+    t=-1;
+    char op[100];
+    auto precedence = [](char c){ if(c=='+'||c=='-') return 1; if(c=='*'||c=='/') return 2; return 0; };
+    for(int i=0;i<infix.size();i++){
+        char c=infix[i];
+        if(isalpha(c)) postfix+=c;
+        else if(c=='(') op[++t]=c;
+        else if(c==')'){
+            while(t>=0 && op[t]!='(') postfix+=op[t--];
+            t--;
+        }
+        else{
+            while(t>=0 && precedence(op[t])>=precedence(c)) postfix+=op[t--];
+            op[++t]=c;
+        }
+    }
+    while(t>=0) postfix+=op[t--];
+    cout << postfix << endl;
+
+
+
+
+
+
+
+
+    // ---------------- Q5: Evaluate Postfix ----------------
+    string p;
+    cin >> p;
+    int st1[100], tp=-1;
+    for(int i=0;i<p.size();i++){
+        char c=p[i];
+        if(isdigit(c)) st1[++tp]=c-'0';
+        else{
+            int b=st1[tp--], a=st1[tp--];
+            if(c=='+') st1[++tp]=a+b;
+            else if(c=='-') st1[++tp]=a-b;
+            else if(c=='*') st1[++tp]=a*b;
+            else if(c=='/') st1[++tp]=a/b;
+        }
+    }
+    cout << st1[tp] << endl;
+
+    return 0;
+}
